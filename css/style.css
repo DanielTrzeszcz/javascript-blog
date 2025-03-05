@@ -1,0 +1,50 @@
+.buttons {
+    background-color: aqua;
+}
+.container {
+    color: rgb(255, 255, 255);
+    text-align : center;
+    background-color: rgb(214, 137, 49);
+    margin : 30px 0px;
+}
+#buttons {
+    
+    height: 100px;
+    justify-content: center;
+    margin-top: 50px;
+    size: 100px;
+
+}
+#h1 {
+    color: blueviolet;
+    text-align : center;
+    background-color: rgb(214, 137, 49);
+    margin : 30px 0px;
+    
+}
+#play-rock {
+    background-color: red;
+    color: white;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  #play-paper {
+    background-color: blue;
+    color: white;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  #play-scissors {
+    background-color: green;
+    color: white;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+ 
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzdHlsZS5jc3MifQ== */
+
