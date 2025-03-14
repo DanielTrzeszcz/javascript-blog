@@ -13,7 +13,8 @@ const optArticleSelector = '.post',
   optTagsListSelector = '.tags',
   optAuthorsListSelector = '.authors';
 
-function generateTitleLinks(filter = '') {
+
+  function generateTitleLinks(filter = '') {
   const titleList = document.querySelector(optTitleListSelector);
   titleList.innerHTML = '';
 
@@ -36,10 +37,31 @@ function generateTitleLinks(filter = '') {
 
 generateTitleLinks();
 
+function calculateTagsParams(tags) {
+  const params = {
+    max: 0,
+    min: 999999,
+  };
+
+  for (let tag in tags) {
+    if (tags[tag] > params.max) {
+      params.max = tags[tag];
+    }
+    if (tags[tag] < params.min) {
+      params.min = tags[tag];
+    }
+  }
+
+  return params;
+}
+
+
+
 function generateTags() {
   const tagsList = document.querySelector(optTagsListSelector);
   let allTags = {};
 
+  // Zbieranie wszystkich tagów i ich liczby wystąpień
   document.querySelectorAll(optArticleSelector).forEach(article => {
     const tagsWrapper = article.querySelector('.post-tags .list-horizontal');
     if (!tagsWrapper) return;
@@ -52,13 +74,32 @@ function generateTags() {
     });
   });
 
-  tagsList.innerHTML = Object.keys(allTags).map(tag =>
-    `<li><a href="#" data-tag="${tag}">${tag} (${allTags[tag]})</a></li>`
-  ).join('');
+  // Obliczenie parametrów tagów
+  const tagParams = calculateTagsParams(allTags);
 
+  // Generowanie listy tagów z różnymi rozmiarami czcionek
+  tagsList.innerHTML = Object.keys(allTags).map(tag => {
+    const tagCount = allTags[tag];
+    const fontSize = calculateTagSize(tagCount, tagParams.min, tagParams.max);
+    return `<li><a href="#" data-tag="${tag}" style="font-size: ${fontSize}px;">${tag} (${tagCount})</a></li>`;
+  }).join('');
+
+  // Dodanie obsługi kliknięć w tagi
   document.querySelectorAll(`${optTagsListSelector} a`).forEach(link => {
     link.addEventListener('click', tagClickHandler);
   });
+}
+
+function calculateTagSize(count, min, max) {
+  // Zakres rozmiarów czcionek (np. od 12px do 24px)
+  const minFontSize = 12;
+  const maxFontSize = 24;
+
+  // Obliczenie rozmiaru czcionki na podstawie liczby wystąpień
+  if (max === min) {
+    return (minFontSize + maxFontSize) / 2; // Średnia, jeśli wszystkie tagi mają tę samą liczbę wystąpień
+  }
+  return minFontSize + ((count - min) / (max - min)) * (maxFontSize - minFontSize);
 }
 
 function titleClickHandler(event) {
