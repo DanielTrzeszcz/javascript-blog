@@ -54,26 +54,25 @@ function generateTags() {
 }
 
 function titleClickHandler(event) {
-    event.preventDefault(); // Zapobiega domyślnemu działaniu linka
-    const clickedElement = this; // Pobiera kliknięty element
-    console.log('Link was clicked!', clickedElement);
+  event.preventDefault();
+  const clickedElement = this;
   
-    // Usuwanie aktywnej klasy z poprzednio zaznaczonych linków
-    const activeLinks = document.querySelectorAll('.titles a.active');
-    activeLinks.forEach(link => link.classList.remove('active'));
-  
-    // Dodanie klasy aktywnej do klikniętego linku
-    clickedElement.classList.add('active');
-  
-    // Ukrycie wszystkich artykułów
-    const activeArticles = document.querySelectorAll('.post');
-    activeArticles.forEach(article => article.classList.remove('active'));
-  
-    // Wyświetlenie odpowiedniego artykułu
-    const articleId = clickedElement.getAttribute('href').substring(1);
-    const targetArticle = document.getElementById(articleId);
-    targetArticle.classList.add('active');
-  }
+  // Usuwanie aktywnej klasy z poprzednio zaznaczonych linków
+  const activeLinks = document.querySelectorAll('.titles a.active');
+  activeLinks.forEach(link => link.classList.remove('active'));
+
+  // Dodanie klasy aktywnej do klikniętego linku
+  clickedElement.classList.add('active');
+
+  // Ukrycie wszystkich artykułów
+  const activeArticles = document.querySelectorAll('.post');
+  activeArticles.forEach(article => article.classList.remove('active'));
+
+  // Wyświetlenie odpowiedniego artykułu
+  const articleId = clickedElement.getAttribute('href').substring(1);
+  const targetArticle = document.getElementById(articleId);
+  targetArticle.classList.add('active');
+}
 
 generateTags();
 
@@ -113,3 +112,20 @@ function authorClickHandler(event) {
   const author = event.target.getAttribute('data-author');
   generateTitleLinks(`author-${author.replace(/\s+/g, '-')}`);
 }
+
+// Nowa funkcja obsługująca kliknięcia w linki w artykule
+function articleTagClickHandler(event) {
+  event.preventDefault();
+  const tag = event.target.innerText;
+  generateTitleLinks(`tag-${tag}`);
+}
+
+// Funkcja generująca linki w artykule
+function generateArticleLinks() {
+  document.querySelectorAll('.post .post-tags .list-horizontal a').forEach(link => {
+    link.addEventListener('click', articleTagClickHandler);
+  });
+}
+
+// Wywołanie funkcji, aby zarejestrować kliknięcia w linki w artykule
+generateArticleLinks();
